@@ -22,9 +22,9 @@ const contactSchema = new Schema({
     },
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
+        ref: "user",
     }
-}, {versionKey:false, timestamps: true});
+}, {versionKey: false, timestamps: true});
 
 const contactAddSchema = Joi.object({
     name: Joi.string().required(),
