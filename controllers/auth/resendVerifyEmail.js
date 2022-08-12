@@ -17,7 +17,7 @@ const resendVerifyEmail = async(req,res)=>{
         throw createError(400, "Verification has already been passed");
     }
     const mail = {
-        to: "annakucherenko31@gmail.com",
+        to: email,
         subject: "Подтверждение регистрации на сайте",
         html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${user.verificationToken}">Нажмите для подтверждения регистрации</a>`
     

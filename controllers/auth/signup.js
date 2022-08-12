@@ -20,7 +20,7 @@ const signup = async(req, res) =>{
     const verificationToken = uuid();        
     const result = await User.create({...req.body, password:hashPassword, avatarURL, verificationToken});
     const mail = {
-        to: "annakucherenko31@gmail.com",
+        to: email,
         subject: "Подтверждение регистрации на сайте",
         html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">Нажмите для подтверждения регистрации</a>`
     
