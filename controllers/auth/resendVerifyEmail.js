@@ -1,6 +1,6 @@
 const {User, schemas} = require("../../models/user");
 
-const {createError, transporter} = require("../../helpers/sendEmail");
+const {createError, transporter} = require("../../helpers");
 
 
 const resendVerifyEmail = async(req,res)=>{
@@ -18,11 +18,12 @@ const resendVerifyEmail = async(req,res)=>{
     }
     const mail = {
         to: email,
+        from: "annakucherenko31@meta.ua",
         subject: "Подтверждение регистрации на сайте",
         html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${user.verificationToken}">Нажмите для подтверждения регистрации</a>`
     
     }
-    await transporter.sendMail(mail);
+    transporter.sendMail(mail);
     res.json({
         message: "Verification email sent"
     }) 
