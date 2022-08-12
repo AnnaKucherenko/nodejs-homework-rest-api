@@ -7,7 +7,6 @@ const tempDir = path.join(process.cwd(), "temp");
 const multerConfig = multer.diskStorage({
     destination: tempDir,
     filename: (req, file, cb)=>{
-           
         const fileName = file.originalname;
         // console.log(tempDir)
         // imageProcessing(tempDir)
