@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
+const {v4} = require("uuid");
 const {User, schemas} = require("../../models/user");
 
-const {createError} = require("../../helpers");
+const {createError, transporter} = require("../../helpers");
 
 const signup = async(req, res) =>{
     const {error} = schemas.signup.validate(req.body);
@@ -15,8 +16,17 @@ const signup = async(req, res) =>{
         throw createError(409, "Email in use");
     }
     const hashPassword =  await bcrypt.hash(password, 10);
-    const avatarURL = gravatar.url(email);          
-    const result = await User.create({...req.body, password:hashPassword, avatarURL});
+    const avatarURL = gravatar.url(email);  
+    const verificationToken = v4();        
+    const result = await User.create({...req.body, password:hashPassword, avatarURL, verificationToken});
+    const mail = {
+        to: email,
+        from: "annakucherenko31@meta.ua",
+        subject: "Подтверждение регистрации на сайте",
+        html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">Нажмите для подтверждения регистрации</a>`
+    
+    }
+    transporter.sendMail(mail);
     res.status(201).json({
         email: result.email,
         subscription: "starter",
